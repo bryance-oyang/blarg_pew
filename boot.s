@@ -31,6 +31,8 @@
  *
  * Now you have a 512 byte binary file containing the raw bootsector. Do
  * whatever you want with it (probably boot with it)
+ *
+ * See Makefile for how to ISO
  */
 
 /* 16-bit assembly */
@@ -48,6 +50,9 @@ blarg:
 	movw	$hehe, %di
 	call	puts
 done:
+	xorw	%ax, %ax
+	int	$0x16
+	int	$0x19
 	hlt
 	jmp	done
 
@@ -73,7 +78,7 @@ puts_end:
 
 hehe:
 	/* asciz: the "z" indicates null-terminated string */
-	.asciz "ducky says: hello, world!"
+	.asciz "ducky says: hello, world!\n\rpress any key to reboot: "
 
 /*
  * The following will add 0xaa55 to the last 2 bytes of the bootsector
