@@ -19,22 +19,26 @@
  * The following 2 commands will create the entire bootsector (assuming
  * gcc/linux):
  * as boot.s -c -o boot.o
- * ld --oformat binary --Ttext 0x7c00 -o boot
+ * ld --oformat binary --Ttext 0x7c00 --entry=blarg -o boot boot.o
  *
  * The ld is necessary to make the output the correct format.
  * "--oformat binary" specifies the output file should be pure binary,
  * i.e. (no ELF nonsense)
  * "--Ttext 0x7c00" specifies the absolute address for the .text section
  * to be 0x7c00 (because the bootsector is loaded there by the BIOS)
+ * "--entry=blarg" specifies that blarg is the entry point (like C
+ * main())
  *
- * Now you have a 512
+ * Now you have a 512 byte binary file containing the raw bootsector. Do
+ * whatever you want with it (probably boot with it)
  */
 
 /* 16-bit assembly */
 .code16
 .text
 
-_start:
+.global blarg
+blarg:
 	cli			# disable interrupts (clear bit)
 	movw	$0x17c0, %ax	# must move register into %ss
 	movw	%ax, %ss	# put stack segment there
@@ -69,7 +73,7 @@ puts_end:
 
 hehe:
 	/* asciz: the "z" indicates null-terminated string */
-	.asciz "hello, world!"
+	.asciz "ducky says: hello, world!"
 
 /*
  * The following will add 0xaa55 to the last 2 bytes of the bootsector
