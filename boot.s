@@ -50,14 +50,11 @@ blarg:
 	movw	$hehe, %di
 	call	puts
 done:
-	xorw	%ax, %ax
-	int	$0x16
-	int	$0x19
 	hlt
 	jmp	done
 
 /*
- * puts: basically the same function as the usual C puts(), but it uses
+ * puts: basically the same behavior as the usual C puts(), but it uses
  * the BIOS interrupt calls to call BIOS magic to control the screen,
  * rather than OS kernel write() syscall interrupt (we don't have an OS)
  */
@@ -78,7 +75,7 @@ puts_end:
 
 hehe:
 	/* asciz: the "z" indicates null-terminated string */
-	.asciz "ducky says: hello, world!\n\rpress any key to reboot: "
+	.asciz "ducky says: hello, world!"
 
 /*
  * The following will add 0xaa55 to the last 2 bytes of the bootsector
