@@ -29,7 +29,7 @@
  * The ld is necessary to make the output the correct format.
  *
  * "--oformat binary" specifies the output file should be pure binary
- * machine code, i.e. (no ELF nonsense)
+ * machine code (no ELF nonsense)
  *
  * "--Ttext 0x7c00" specifies the absolute address for the .text section
  * to be 0x7c00 (because the bootsector is loaded there by the BIOS).
